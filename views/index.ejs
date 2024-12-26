@@ -1,0 +1,54 @@
+<%- include('partials/header.ejs') %>
+    <div class="container">
+        <div class="row g-4">
+            <% posts.forEach(post=> { %>
+                <div class="col-lg-3">
+                    <div class="card shadow d-flex flex-column" style="height: 100%;">
+                        <!-- รูปภาพ -->
+                        <img src="<%= post.image ? '/uploads/' + post.image : '/path/to/default-image.jpg' %>" 
+                             class="card-img-top" alt="<%= post.title %>" height="300">
+                        <!-- เนื้อหา -->
+                        <div class="card-body d-flex flex-column p-4">
+                            <h4 class="card-title fw-bold text-black"><%= post.title %></h4>
+                            <!-- ข้อความที่มีความยาวเท่ากัน -->
+                            <p class="card-text text-truncate">
+                                <%= post.content.substring(0,200) %>...
+                            </p>
+                            <!-- การจัดตำแหน่งปุ่ม -->
+                            <div class="mt-auto">
+                                <a href="/post/<%= post.slug %>" class="btn btn-danger w-100">Read More</a>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center fs-6">
+                                <div><%= post.user.name %></div>
+                                <div><%= post.createdAt.toLocaleDateString() %></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <div class="my-4 float-end d-inline-flex align-items-center gap-4">
+            <% if (pagination.hasPrevPage) {%>
+                <div>
+                    <a href="/?page=<%= pagination.prevPage %>" class="btn btn-secondary btn-sm">Previous</a>
+                </div>
+            <%} %>
+
+            <span>Page <%= pagination.currentPage %> of <%= pagination.totalPage %></span>
+
+            <% if (pagination.hasNextPage) {%>
+                <div>
+                    <a href="/?page=<%= pagination.nextPage %>" class="btn btn-secondary btn-sm">Next</a>
+                </div>
+            <%} %>
+
+            <a href="/?page=<%= pagination.nextPage %>" class="btn btn-danger btn-sm">
+                <i class="fa-solid fa-arrow-right"></i> Next
+            </a>
+        </div>
+    </div
+<%- include('partials/footer.ejs') %>
